@@ -1,3 +1,4 @@
+import logging
 import os
 from .....utilities.pathname import url2pathname
 
@@ -24,6 +25,7 @@ class URLImage(FileImage):
         else:
             pathname = ""
             filename = url
+            logging.debug("!!!!!!!!!!!!!!!!!!! _url_image.__init__: filename {}".format(filename))
         super(URLImage, self).__init__(
             name, pathname, filename, rescale, series, index, channel, volume, spacing
         )

@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import shutil
@@ -127,7 +128,11 @@ def load_data_file(pathname_or_url, load_fn):
     ext = os.path.splitext(pathname_or_url)[-1].lower()
 
     if any([pathname_or_url.startswith(scheme) for scheme in PASSTHROUGH_SCHEMES]):
+        logging.debugU("!!!!!!!!!!!!!!!!!!! RL detected: {}".format(scheme))
+        
         url = generate_presigned_url(pathname_or_url)
+
+        logging.debug("!!!!!!!!!!!!!!!!!!! Presigned URL generated: {}".format(url))
 
         try:
             src = urllib.request.urlopen(url)
@@ -148,6 +153,7 @@ def load_data_file(pathname_or_url, load_fn):
 
 
 def is_file_url(url):
+    logging.debug("!!!!!!!!!!!!!!!!!!! is_file_url: {}".format(url))
     return url.lower().startswith(FILE_SCHEME)
 
 

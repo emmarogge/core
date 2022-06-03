@@ -17,6 +17,9 @@ dist/
 docs/_build
 docs/source/help
 docs/source/images
+*/ExampleHuman/*
+ExampleHuman
+get_object_from_bucket.py
 frozen_version.py
 pip-wheel-metadata/
 plugins/

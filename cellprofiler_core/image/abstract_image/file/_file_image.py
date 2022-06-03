@@ -178,7 +178,6 @@ class FileImage(AbstractImage):
                 os.close(tempfd)
         else:
             from bioformats.formatreader import get_image_reader
-
             rdr = get_image_reader(id(self), url=url)
             self.__cached_file = rdr.path
         self.__is_cached = True

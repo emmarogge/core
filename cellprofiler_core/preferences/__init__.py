@@ -1006,7 +1006,8 @@ def get_absolute_path(path, abspath_mode=ABSPATH_IMAGE):
 
 def is_url_path(path):
     """Return True if the path should be treated as a URL"""
-    for protocol in ("http", "https", "ftp", "s3"):
+    logging.debug("is_url_path({})".format(path))
+    for protocol in ("http", "https", "ftp", "s3", "gs"):
         if path.lower().startswith("%s:" % protocol):
             return True
     return False
@@ -1760,6 +1761,7 @@ def set_wants_pony(wants_pony):
 
 def set_image_set_file(filename):
     """Record the name of the image set that should be loaded upon startup"""
+    logging.debug("!!!!!!!!!!!!!!!!!!!!! set_image_set_file: {}".format(filename))
     global __image_set_filename
     __image_set_filename = filename
 
@@ -1782,6 +1784,7 @@ def get_image_set_file():
     for headless, the file list should be loaded after the pipeline has been
     loaded.
     """
+    logging.debug("!!!!!!!!!!! get_image_set_filename: {}".format(__image_set_filename))
     return __image_set_filename
 
 

@@ -1,5 +1,6 @@
 # coding=utf-8
 
+import logging
 import os
 import urllib.parse
 import urllib.request
@@ -250,7 +251,11 @@ pass the current filter.
 
     @staticmethod
     def modpath_to_url(modpath):
-        if modpath[0] in ("http", "https", "ftp", "s3"):
+
+        if modpath[0] in ("http", "https", "ftp", "s3", "gs"):
+            if modpath[0] == "gs":
+                logging.debug("images.modpath_to_url: {}".format(modpath))
+
             if len(modpath) == 1:
                 return modpath[0] + ":"
             elif len(modpath) == 2:
@@ -343,11 +348,13 @@ pass the current filter.
             )
             file_array = env.make_object_array(len(file_list), scls)
             for i, url in enumerate(file_list):
+                logging.debug("!!!!!!!!!!!!!!!!!!!!!!!!!! images.prepare_run: {}".format(url))
                 if url.startswith("s3:"):
                     url = url.replace(" ", "+")
 
                 if isinstance(url, str):
                     ourl = env.new_string(url)
+                    logging.debug("!!!!!!!!!!!!!!!!!!!!!!!!!! images.prepare_run ourl: {}".format(ourl))
                 else:
                     ourl = env.new_string_utf(url)
                 env.set_object_array_element(file_array, i, ourl)

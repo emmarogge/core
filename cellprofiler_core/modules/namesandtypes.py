@@ -1957,6 +1957,7 @@ requests an object selection.
                   or a floating point manual value.
         stack - the ImagePlaneDetailsStack that describes the image's planes
         """
+        logging.debug("!!!!!!!!!!!!!!!!!!! namesandtypes.add_image_provider: {}".format(name))
         if rescale == INTENSITY_RESCALING_BY_METADATA:
             rescale = True
         elif rescale == INTENSITY_RESCALING_BY_DATATYPE:
@@ -2028,7 +2029,9 @@ requests an object selection.
         m = workspace.measurements
 
         url = m.alter_url_post_create_batch(url)
-
+        
+        logging.debug("!!!!!!!!!!!!!!!!!!! add_simple_image: url - {}".format(url))
+        
         volume = self.process_as_3d.value
 
         spacing = (self.z.value, self.x.value, self.y.value) if volume else None
@@ -2140,6 +2143,7 @@ requests an object selection.
                 url = ipds[0].url
 
         url = workspace.measurements.alter_url_post_create_batch(url)
+        logging.debug("!!!!!!!!!!!!!!!!!!! namesandtypes.add_objects: {}".format(url))
         volume = self.process_as_3d.value
         spacing = (self.z.value, self.x.value, self.y.value) if volume else None
         provider = ObjectsImage(

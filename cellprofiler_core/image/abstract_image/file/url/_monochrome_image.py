@@ -1,3 +1,4 @@
+import logging
 import skimage.color
 
 from ._url_image import URLImage
@@ -30,6 +31,7 @@ class MonochromeImage(URLImage):
         )
 
     def provide_image(self, image_set):
+        logging.debug("!!!!!!!!!!!!!!!!!!! MonoChromeImage")
         image = URLImage.provide_image(self, image_set)
 
         if image.pixel_data.ndim == image.dimensions + 1:
