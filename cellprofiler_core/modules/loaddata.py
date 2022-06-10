@@ -1,5 +1,6 @@
 import csv
 import io
+import logging
 import os
 import urllib.request
 
@@ -596,6 +597,7 @@ safe to press it.""",
         global header_cache
 
         if is_url_path(self.csv_path):
+            logging.debug("!!!DEBUG LOGGING!!! CSV PATH IS URL PATH: {}".format(self.csv_path))
             if self.csv_path not in header_cache:
                 header_cache[self.csv_path] = {}
             entry = header_cache[self.csv_path]
@@ -645,6 +647,7 @@ safe to press it.""",
         for i, field in enumerate(header):
             list_ctl.InsertColumn(i, field)
         for line in reader:
+            logging.debug("!!!DEBUG LOGGING!!! Reading line in CSV:\n{}".format(line))
             list_ctl.Append(
                 [s if isinstance(s, str) else s for s in line[: len(header)]]
             )
@@ -679,6 +682,7 @@ safe to press it.""",
                 if is_file_name_feature(field) or is_url_name_feature(field)
             ]
         )
+        logging.debug("!!!DEBUG LOGGING!!! Image Names: {}".format(list(image_names)))
         return list(image_names)
 
     def get_object_names(self, do_not_cache=False):
@@ -1055,6 +1059,7 @@ safe to press it.""",
         url = measurements.get_measurement("Image", url_feature)
         full_filename = url2pathname(url)
         path, filename = os.path.split(full_filename)
+        logging.debug("!!!DEBUG LOGGING!!! loaddata.fetch_provider path: {} filename: {}".format(path, filename))
         keyword_args = {}
         for feature in (series_feature, frame_feature, channel_feature,
                         plane_feature, timepoint_feature):

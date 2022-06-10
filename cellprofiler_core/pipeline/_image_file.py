@@ -141,16 +141,19 @@ class ImageFile:
 
     @cached_property
     def filename(self):
+        logging.debug(f"!!!DEBUG LOGGING!!! pipeline._image_file.filename(self): {os.path.basename(self.path)}")
         return os.path.basename(self.path)
 
     @cached_property
     def dirname(self):
+        logging.debug(f"!!!DEBUG LOGGING!!! pipeline._image_file.dirname(self): {os.path.dirname(self.path)}")
         return os.path.dirname(self.path)
 
     @cached_property
     def path(self):
         """The file path if a file: URL, otherwise the URL"""
         if is_file_url(self.url):
+            logging.debug(f"!!!DEBUG LOGGING!!! pipeline._image_file.path(self): {self.url}")
             parsed = urllib.parse.urlparse(self.url)
             return urllib.request.url2pathname(parsed.path)
         return self.url
@@ -160,6 +163,7 @@ class ImageFile:
         """The directory, filename and extension broken up into a tuple"""
         if self._modpath is None:
             self._modpath = url_to_modpath(self.url)
+            logging.debug(f"!!!DEBUG LOGGING!!! pipeline._image_file.modpath(self): {self._modpath}")
         return self._modpath
 
     @cached_property

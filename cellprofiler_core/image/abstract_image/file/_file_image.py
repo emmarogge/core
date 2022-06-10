@@ -175,9 +175,12 @@ class FileImage(AbstractImage):
         path = self.get_pathname()
         if len(path) == 0:
             filename = self.get_filename()
+            logging.debug("!!!DEBUG LOGGING!!! _file_image filename {}".format(filename))
             if os.path.exists(filename):
                 return False
             parsed_path = urllib.parse.urlparse(filename)
+            for p in parsed_path:
+                logging.debug("!!!DEBUG LOGGING!!! Parsed Path: {}".format(p))
             url = filename
             if len(parsed_path.scheme) < 2:
                 raise IOError("Test for access to file failed. File: %s" % filename)
@@ -215,7 +218,7 @@ class FileImage(AbstractImage):
             from ....pipeline import ImageFile
             image_file = self.get_image_file()
             rdr_class = get_image_reader_class(image_file, volume=self.__volume)
-            if not rdr_class.supports_url() and parsed_path.scheme.lower() != 'omero':
+            if not rdr_class.supports_url() and parsed_path.scheme.lower() != 'omero' and parsed_path.scheme.lower() != 'gs':
                 cached_file = download_to_temp_file(image_file.url)
                 if cached_file is None:
                     return False
@@ -320,7 +323,9 @@ class FileImage(AbstractImage):
             self.scale = 1.0
         else:
             rdr = self.get_reader()
+            logging.debug("!!!DEBUG LOGGING!!! _file_image._set_image rdr: {}".format(rdr.__class__))
             if numpy.isscalar(self.index) or self.index is None:
+                logging.debug("!!!DEBUG LOGGING!!! _file_image._set_image - self.index: {}".format(self.index if self.index is not None else "None"))
                 img, self.scale = rdr.read(
                     c=self.channel,
                     z=self.z,

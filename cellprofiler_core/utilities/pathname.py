@@ -1,3 +1,4 @@
+import logging
 import pathlib
 import urllib.request
 
@@ -21,7 +22,9 @@ def pathname2url(path):
 def url2pathname(url):
     lower_url = url.lower()
     if any((lower_url.startswith(x) for x in PASSTHROUGH_SCHEMES)):
+        logging.debug("!!!DEBUG LOGGING!!! IS PASSTHROUGH SCHEME pathname.url2pathname({})".format(lower_url))
         return url
     if is_file_url(url):
+        logging.debug("!!!DEBUG LOGGING!!! IS_FILE_URL pathname.url2pathname({})".format(lower_url))
         return urllib.request.url2pathname(url[len(FILE_SCHEME):])
     return url

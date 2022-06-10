@@ -75,6 +75,7 @@ def find_cp_reader(rdr):
 
 
 def get_image_reader_class(image_file, use_cached_name=True, volume=False):
+    logging.debug(f"!!!DEBUG LOGGING!!! __init__.py get_image_reader_class - url {image_file._url} filename {image_file.filename})")
     if get_force_bioformats():
         return all_readers["Bio-Formats"]
     if use_cached_name and image_file.preferred_reader in all_readers:
@@ -85,6 +86,7 @@ def get_image_reader_class(image_file, use_cached_name=True, volume=False):
     best_value = 5
     for reader_name, reader_class in all_readers.items():
         result = reader_class.supports_format(image_file, volume=volume, allow_open=False)
+        LOGGER.debug(f"!!!DEBUG LOGGING!!! {reader_name}: {result}")
         if result == 1:
             LOGGER.debug(f"Selected {reader_name}")
             image_file.preferred_reader = reader_name
@@ -100,6 +102,7 @@ def get_image_reader_class(image_file, use_cached_name=True, volume=False):
 
 def get_image_reader(image_file, use_cached_name=True, volume=False):
     reader_class = get_image_reader_class(image_file, use_cached_name=use_cached_name, volume=volume)
+    logging.debug("!!!DEBUG LOGGING!!! __init__.py get_image_reader({})".format(image_file))
     return reader_class(image_file)
 
 
